@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.4/examples/dashboard/dashboard.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<nav class="navbar fixed-top flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">Main Page</a>
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <a class="btn btn-outline-primary" href="/create/exam">Make Test</a>
+        </li>
+    </ul>
+</nav>
+
+{#<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">#}
+{#    <a href="/" class="my-0 mr-md-auto">Main Page</a>#}
+{#    <nav class="my-2 my-md-0 mr-md-3">#}
+{#    #}{#        <a class="p-2 text-dark" href="#">Features</a>#}
+{#    #}{#        <a class="p-2 text-dark" href="#">Enterprise</a>#}
+{#    #}{#        <a class="p-2 text-dark" href="#">Support</a>#}
+{#    #}{#        <a class="p-2 text-dark" href="#">Pricing</a>#}
+{#    </nav>#}
+{#    <a class="btn btn-outline-primary" href="/create/exam">Make Test</a>#}
+{#</div>#}
+
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <br>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/create/exam">
+                            1. Создать название теста <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/create/questionType">
+                            2. Задать тип вопроса
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/create/question">
+                            3. Создать вопрос
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            4. Задать вариант(ы) ответов
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <br>
+            {% block body %}{% endblock %}
+
+        </main>
+    </div>
+</div>
+
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function(){
+            $('.nav li a').each(function () {
+                var location = window.location.href;
+                var link = this.href;
+                if(location == link) {
+                    $(this).addClass('active');
+                }
+            });
+        });
+    </script>
+{% endblock %}
+</body>
+</html>
