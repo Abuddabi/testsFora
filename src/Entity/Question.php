@@ -40,9 +40,15 @@ class Question
      */
     private $answerOptions;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserAnswer", mappedBy="question")
+     */
+    private $userAnswer;
+
     public function __construct()
     {
         $this->answerOptions = new ArrayCollection();
+        $this->userAnswer = new ArrayCollection();
     }
 
     public function __toString()
@@ -116,6 +122,37 @@ class Question
             // set the owning side to null (unless already changed)
             if ($answerOption->getQuestion() === $this) {
                 $answerOption->setQuestion(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserAnswer[]
+     */
+    public function getUserAnswer(): Collection
+    {
+        return $this->userAnswer;
+    }
+
+    public function addUserAnswer(UserAnswer $userAnswer): self
+    {
+        if (!$this->userAnswer->contains($userAnswer)) {
+            $this->userAnswer[] = $userAnswer;
+            $userAnswer->setQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserAnswer(UserAnswer $userAnswer): self
+    {
+        if ($this->userAnswer->contains($userAnswer)) {
+            $this->userAnswer->removeElement($userAnswer);
+            // set the owning side to null (unless already changed)
+            if ($userAnswer->getQuestion() === $this) {
+                $userAnswer->setQuestion(null);
             }
         }
 
