@@ -45,6 +45,11 @@ class Question
         $this->answerOptions = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+      return $this->text;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

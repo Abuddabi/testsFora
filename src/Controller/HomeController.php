@@ -20,15 +20,4 @@ class HomeController extends AbstractController
       ]);
   }
 
-  /**
-   * @Route("/create", name="create")
-   */
-  public function create()
-  {
-    return $this->render('home/index.html.twig', [
-        'controller_name' => 'HomeController',
-    ]);
-  }
-
-
 }

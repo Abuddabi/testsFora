@@ -33,6 +33,11 @@ class QuestionType
         $this->question = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+      return $this->typeName;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
