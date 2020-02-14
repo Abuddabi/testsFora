@@ -1,16 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Book Page{% endblock %}
+{% block title %}Answers Page{% endblock %}
 
 {% block body %}
     <div class="container">
         <br><br>
-        <h2 class="col-12">{{ exam.title }}</h2>
+        <h2 class="col-12">Right answers: {{ exam.title }}</h2>
         <br>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ path('storeResult')}}">
                     {% for question in exam.questions %}
                         <br>
                         <div class="content-element">
@@ -18,29 +17,37 @@
                             {% for  answer in question.answerOptions %}
                                 {% if question.type.id == 1 %}
                                     <label>
-                                        <input type="radio" name="{{ question.id }}" value="{{ answer.id }}">
-                                        <span>{{ answer.answer }}</span>
+                                      <input type="radio">
+                                      <span
+                                        {% if answer.isRight and userAnswers[question.id] == answer.id %}
+                                          class="text-success font-weight-bold"
+                                        {% elseif answer.isRight == false and userAnswers[question.id] == answer.id %}
+                                          class="text-danger"
+                                        {% endif %}>
+                                        {{ answer.answer }}
+                                      </span>
                                     </label><br>
                                 {% elseif question.type.id == 2 %}
                                     <p class="mb-0">
-                                        <label>
-                                            <input type="checkbox" name="{{ question.id }}" value="{{ answer.id }}">
-                                            {{ answer.answer }}
-                                        </label>
+                                      <label
+                                        {% if answer.isRight and userAnswers[question.id] == answer.id %}
+                                          class="text-success font-weight-bold"
+                                        {% elseif answer.isRight == false and userAnswers[question.id] == answer.id %}
+                                          class="text-danger"
+                                        {% endif %}>
+                                        <input type="checkbox">&nbsp;{{ answer.answer }}
+                                      </label>
                                     </p>
-                                {% else %}
-                                    <textarea name="{{ question.id }}" cols="30" rows="5"></textarea>
+                                {% elseif question.type.id == 3 %}
+                                  {% if userAnswers[question.id] == answer.answer %}
+                                      <span class="text-success font-weight-bold">{{ answer.answer }}</span>
+                                  {% else %}
+                                      <span class="text-danger">{{ userAnswers[question.id] }}</span><br>
+                                  {% endif %}
                                 {% endif %}
                             {% endfor %}
                         </div>
                     {% endfor %}
-                    <br>
-                    <div class="row">
-                        <a href="" class="col-3">
-                            <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Confirm</button>
-                        </a>
-                    </div>
-                    </form>
                 </div>
             </div>
         </div>

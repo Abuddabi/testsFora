@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\AnswerOption;
 use App\Entity\Exam;
 use App\Entity\Question;
 use App\Entity\UserAnswer;
-use App\Form\UserAnswerType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,9 +39,8 @@ class PassExamController extends AbstractController
         $em->flush();
       }
 
-      return $this->redirectToRoute('showResult', [
-          'exam' => $exam
-      ]);
+      $examId = $exam->getId();
+      return $this->redirect("/show/result/$examId");
     }
 
     return $this->render('passExam/index.html.twig', [
@@ -57,9 +56,17 @@ class PassExamController extends AbstractController
    */
   public function showResult(Exam $exam)
   {
+    $userAnswers = [];
+    foreach ($exam->getQuestions() as $question){
+      $questionId = $question->getId();
+      foreach($question->getUserAnswer() as $userAnswer){
+        $userAnswers["$questionId"] = $userAnswer->getAnswer();
+      }
+    }
 
     return $this->render('passExam/showResult.html.twig', [
-        'exam' => exam
+      'exam' => $exam,
+      'userAnswers' => $userAnswers
     ]);
   }
 }
