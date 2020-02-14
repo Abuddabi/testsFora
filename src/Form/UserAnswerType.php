@@ -2,10 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\Question;
 use App\Entity\UserAnswer;
 use App\Repository\QuestionRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,12 +19,10 @@ class UserAnswerType extends AbstractType
 
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
+
     $builder
-        ->add('question', EntityType::class, [
-            'class' => Question::class,
-        ])
-        ->add('answer')
-    ;
+      ->add('question')
+      ->add('answer');
   }
 
   public function configureOptions(OptionsResolver $resolver)

@@ -26,36 +26,13 @@ class QuestionFormType extends AbstractType
 
   public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // Получаем данные для options(выборки) в форме
-        // Получаем все Названия тестов
-        $exams = $this->examRepository->findAll();
-        foreach ($exams as $exam){
-          // Юзер будет видеть Название теста
-          $examTitle[] = $exam->getTitle();
-
-          // а передаваться через форму будет id теста
-          $examId[] = $exam->getId();
-        }
-        $examChoices = array_combine($examTitle, $examId);
-
-        // Получаем типы вопросов
-        $types = $this->typeRepository->findAll();
-        foreach ($types as $type){
-          // Юзер будет видеть Название типа
-          $typeName[] = $type->getTypeName();
-
-          // а передаваться через форму будет id типа
-          $typeId[] = $type->getId();
-        }
-        $typeChoices = array_combine($typeName, $typeId);
-
         $builder
             ->add('exam', EntityType::class, [
               'class' => Exam::class
-            ], array('choices' => $examChoices))
+            ])
             ->add('type', EntityType::class, [
                 'class' => QuestionType::class
-            ], array('choices' => $typeChoices))
+            ])
             ->add('text')
             ->add('save', SubmitType::class)
         ;

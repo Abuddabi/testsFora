@@ -22,20 +22,10 @@ class AnswerType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-      // Получаем данные для options(выборки) в форме
-      // Получаем все вопросы
-      $questions = $this->questionRepository->findAll();
-      foreach ($questions as $question){
-        $questionText[] = $question->getText();
-        $questionId[] = $question->getId();
-      }
-      $questionChoices = array_combine($questionText, $questionId);
-//      var_dump($questionChoices); die;
-
       $builder
           ->add('question', EntityType::class, [
               'class' => Question::class
-          ], array('choices' => $questionChoices))
+          ])
           ->add('answer')
           ->add('is_right')
           ->add('save', SubmitType::class)
