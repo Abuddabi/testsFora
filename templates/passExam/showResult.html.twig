@@ -15,6 +15,8 @@
                         <div class="content-element">
                             <p class="h5 font-italic mb-3">{{ loop.index }}. {{ question.text }}</p>
                             {% for  answer in question.answerOptions %}
+
+                                {#-------radiobuttons-------#}
                                 {% if question.type.id == 1 %}
                                     <label>
                                       <input type="radio">
@@ -27,6 +29,8 @@
                                         {{ answer.answer }}
                                       </span>
                                     </label><br>
+
+                                {# -------checkboxes------- #}
                                 {% elseif question.type.id == 2 %}
                                     <p class="mb-0">
                                       <label
@@ -38,6 +42,8 @@
                                         <input type="checkbox">&nbsp;{{ answer.answer }}
                                       </label>
                                     </p>
+
+                                {# -------checkboxes------- #}
                                 {% elseif question.type.id == 3 %}
                                   {% if userAnswers[question.id] == answer.answer %}
                                       <span class="text-success font-weight-bold">{{ answer.answer }}</span>
@@ -45,6 +51,7 @@
                                       <span class="text-danger">{{ userAnswers[question.id] }}</span><br>
                                   {% endif %}
                                 {% endif %}
+
                             {% endfor %}
                         </div>
                     {% endfor %}

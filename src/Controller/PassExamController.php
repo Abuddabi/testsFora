@@ -28,7 +28,7 @@ class PassExamController extends AbstractController
       array_pop($result); //удаляет последний элемент с токеном. Иначе ошибка
       $questionRepository = $this->getDoctrine()->getRepository(Question::class);
       $em = $this->getDoctrine()->getManager();
-
+      dump($result); die;
       foreach ($result as $questionId => $answer){
         $question = $questionRepository->find($questionId);
         $userAnswer = new UserAnswer();
