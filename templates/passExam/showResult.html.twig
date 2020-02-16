@@ -3,61 +3,61 @@
 {% block title %}Answers Page{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <br><br>
-        <h2 class="col-12">Right answers: {{ exam.title }}</h2>
-        <br>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="card">
-                <div class="card-body">
-                    {% for question in exam.questions %}
-                        <br>
-                        <div class="content-element">
-                            <p class="h5 font-italic mb-3">{{ loop.index }}. {{ question.text }}</p>
-                            {% for  answer in question.answerOptions %}
+  <div class="container">
+    <br><br>
+    <h2 class="col-12">Result: {{ exam.title }}</h2>
+    <br>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="card">
+        <div class="card-body">
+          {% for question in exam.questions %}
+            <br>
+            <div class="content-element">
+              <p class="h5 font-italic mb-3">{{ loop.index }}. {{ question.text }}</p>
+              {% for  answer in question.answerOptions %}
 
-                                {#-------radiobuttons-------#}
-                                {% if question.type.id == 1 %}
-                                    <label>
-                                      <input type="radio">
-                                      <span
-                                        {% if answer.isRight and userAnswers[question.id] == answer.id %}
-                                          class="text-success font-weight-bold"
-                                        {% elseif answer.isRight == false and userAnswers[question.id] == answer.id %}
-                                          class="text-danger"
-                                        {% endif %}>
-                                        {{ answer.answer }}
-                                      </span>
-                                    </label><br>
+                {#-------radiobuttons-------#}
+                {% if question.type.id == 1 %}
+                  <label>
+                    <input type="radio">
+                    <span
+                      {% if answer.isRight and userAnswers[question.id] == answer.id %}
+                        class="text-success font-weight-bold"
+                      {% elseif answer.isRight == false and userAnswers[question.id] == answer.id %}
+                        class="text-danger"
+                      {% endif %}>
+                        {{ answer.answer }}
+                      </span>
+                  </label><br>
 
-                                {# -------checkboxes------- #}
-                                {% elseif question.type.id == 2 %}
-                                    <p class="mb-0">
-                                      <label
-                                        {% if answer.isRight and userAnswers[question.id] == answer.id %}
-                                          class="text-success font-weight-bold"
-                                        {% elseif answer.isRight == false and userAnswers[question.id] == answer.id %}
-                                          class="text-danger"
-                                        {% endif %}>
-                                        <input type="checkbox">&nbsp;{{ answer.answer }}
-                                      </label>
-                                    </p>
+                  {# -------checkboxes------- #}
+                {% elseif question.type.id == 2 %}
+                  <p class="mb-0">
+                    <label
+                      {% if answer.isRight and userAnswers[question.id][loop.index0] == answer.id %}
+                        class="text-success font-weight-bold"
+                      {% elseif answer.isRight == false and userAnswers[question.id][loop.index0] == answer.id %}
+                      class="text-danger"
+                        {% endif %}>
+                      <input type="checkbox">&nbsp;{{ answer.answer }}
+                    </label>
+                  </p>
 
-                                {# -------checkboxes------- #}
-                                {% elseif question.type.id == 3 %}
-                                  {% if userAnswers[question.id] == answer.answer %}
-                                      <span class="text-success font-weight-bold">{{ answer.answer }}</span>
-                                  {% else %}
-                                      <span class="text-danger">{{ userAnswers[question.id] }}</span><br>
-                                  {% endif %}
-                                {% endif %}
+                  {# -------textarea------- #}
+                {% elseif question.type.id == 3 %}
+                  {% if userAnswers[question.id] == answer.answer %}
+                    <span class="text-success font-weight-bold">{{ answer.answer }}</span>
+                  {% else %}
+                    <span class="text-danger">{{ userAnswers[question.id] }}</span><br>
+                  {% endif %}
+                {% endif %}
 
-                            {% endfor %}
-                        </div>
-                    {% endfor %}
-                </div>
+              {% endfor %}
             </div>
+          {% endfor %}
         </div>
-
+      </div>
     </div>
+
+  </div>
 {% endblock %}

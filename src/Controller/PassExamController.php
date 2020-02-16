@@ -24,12 +24,28 @@ class PassExamController extends AbstractController
 
     if($this->isCsrfTokenValid('submit', $submittedToken)){
 
-      $result = $request->request->all();
-      array_pop($result); //удаляет последний элемент с токеном. Иначе ошибка
+      $userAnswers = $request->request->all();
+      array_pop($userAnswers); //удаляет последний элемент с токеном. Иначе ошибка
       $questionRepository = $this->getDoctrine()->getRepository(Question::class);
       $em = $this->getDoctrine()->getManager();
 //      dump($result); die;
-      foreach ($result as $questionId => $answer){
+
+      foreach ($userAnswers as $questionId => $answer){
+        //checkboxes return array where key is question id and value is array of answers
+        if(is_array($answer)){
+          foreach ($answer as $key => $sub_answer){
+            $question = $questionRepository->find($questionId);
+            $userAnswer = new UserAnswer();
+            $userAnswer->setQuestion($question);
+            $userAnswer->setAnswer($sub_answer);
+
+            $em->persist($userAnswer);
+            $em->flush();
+          }
+
+          continue;
+        }
+
         $question = $questionRepository->find($questionId);
         $userAnswer = new UserAnswer();
         $userAnswer->setQuestion($question);
@@ -43,11 +59,14 @@ class PassExamController extends AbstractController
       return $this->redirect("/show/result/$examId");
     }
 
+    $checkboxes = [];
     return $this->render('passExam/index.html.twig', [
       'controller_name' => 'PassExamController',
-      'exam' => $exam
+      'exam' => $exam,
+      'checkboxes' => $checkboxes
     ]);
   }
+
 
   /**
    * @Route("/show/result/{exam}", name="showResult")
@@ -59,7 +78,16 @@ class PassExamController extends AbstractController
     $userAnswers = [];
     foreach ($exam->getQuestions() as $question){
       $questionId = $question->getId();
+
       foreach($question->getUserAnswer() as $userAnswer){
+
+        //if question is a checkbox
+        if($question->getType()->getId() == 2){
+          $userAnswers["$questionId"][] = $userAnswer->getAnswer();
+
+          continue;
+        }
+
         $userAnswers["$questionId"] = $userAnswer->getAnswer();
       }
     }

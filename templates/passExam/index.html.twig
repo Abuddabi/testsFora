@@ -1,50 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Book Page{% endblock %}
+{% block title %}{{ exam.title }}{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <br><br>
-        <h2 class="col-12">{{ exam.title }}</h2>
-        <br>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="card">
-                <div class="card-body">
-                    <form action="{{ path('passExam', {'exam': exam.id}) }}" method="post">
-                    {% for question in exam.questions %}
-                        <br>
-                        <div class="content-element">
-                            <p class="h5 font-italic mb-3">{{ loop.index }}. {{ question.text }}</p>
-                            {% for  answer in question.answerOptions %}
-                                {% if question.type.id == 1 %}
-                                    <label>
-                                        <input type="radio" name="{{ question.id }}" value="{{ answer.id }}">
-                                        <span>{{ answer.answer }}</span>
-                                    </label><br>
-                                {% elseif question.type.id == 2 %}
-                                    <p class="mb-0">
-                                        <label>
-                                            <input type="checkbox" name="{{ question.id }}" value="{{ answer.id }}">
-                                            {{ answer.answer }}
-                                        </label>
-                                    </p>
-                                {% else %}
-                                    <textarea name="{{ question.id }}" cols="30" rows="3"></textarea>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    {% endfor %}
-                    <br>
-                    <input type="hidden" name="token" value="{{ csrf_token('submit') }}"/>
-                    <div class="row">
-                        <a href="" class="col-3">
-                            <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Confirm</button>
-                        </a>
-                    </div>
-                    </form>
-                </div>
+  <div class="container">
+    <br><br>
+    <h2 class="col-12">{{ exam.title }}</h2>
+    <br>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="card">
+        <div class="card-body">
+          <form action="{{ path('passExam', {'exam': exam.id}) }}" method="post">
+            {% for question in exam.questions %}
+              <br>
+              <div class="content-element">
+                <p class="h5 font-italic mb-3">{{ loop.index }}. {{ question.text }}</p>
+                {% for  answer in question.answerOptions %}
+                  {% if question.type.id == 1 %}
+                    <label>
+                      <input type="radio" name="{{ question.id }}" value="{{ answer.id }}">
+                      <span>{{ answer.answer }}</span>
+                    </label><br>
+                  {% elseif question.type.id == 2 %}
+                    <p class="mb-0">
+                      <label>
+                        <input type="checkbox" name="{{ question.id }}[]" value="{{ answer.id }}">
+                        {{ answer.answer }}
+                      </label>
+                    </p>
+                  {% else %}
+                    <textarea name="{{ question.id }}" cols="30" rows="3"></textarea>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endfor %}
+            <br>
+            <input type="hidden" name="token" value="{{ csrf_token('submit') }}"/>
+            <div class="row">
+              <a href="" class="col-3">
+                <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Confirm</button>
+              </a>
             </div>
+          </form>
         </div>
-
+      </div>
     </div>
+
+  </div>
 {% endblock %}
