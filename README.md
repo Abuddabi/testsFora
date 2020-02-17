@@ -1,7 +1,8 @@
 Для запуска приложения необходимо:<br>
 &bull; скачать все файлы<br>
+&bull; переименовать файл .env.template в .env (команда mv .env.template .env
+ на Linux)<br>
 &bull; выполнить команду composer install<br>
-&bull; переименовать файл .env.template в .env<br>
 &bull; внести доступы к БД в .env<br>
 &bull; выполнить команду php bin/console doctrine:database:create<br>
 &bull; выполнить команду php bin/console doctrine:migrations:migrate<br>

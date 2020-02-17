@@ -53,17 +53,14 @@ class CreateExamController extends AbstractController
    * @param Request $request
    * @return \Symfony\Component\HttpFoundation\Response
    */
-  public function createQuestionType(Request $request)
+/*  public function createQuestionType(Request $request)
   {
     $questionType = new QuestionType();
-
     $form = $this->createForm(TypeOfQuestionType::class, $questionType, [
         'action' => $this->generateUrl('createQuestionType')
     ]);
     $form->handleRequest($request);
-
     if($form->isSubmitted() && $form->isValid()){
-
       $em = $this->getDoctrine()->getManager();
 
       $em->persist($questionType);
@@ -76,7 +73,7 @@ class CreateExamController extends AbstractController
         'controller_name' => 'CreateExamController',
         'createQuestionType' => $form->createView()
     ]);
-  }
+  }*/
 
   /**
    * @Route("/create/question", name="createQuestion")
@@ -130,7 +127,7 @@ class CreateExamController extends AbstractController
       $em->persist($answer);
       $em->flush();
 
-      return $this->redirectToRoute('createExam');
+      return $this->redirectToRoute('home');
     }
 
     return $this->render('create/createAnswer.html.twig', [

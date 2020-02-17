@@ -59,11 +59,9 @@ class PassExamController extends AbstractController
       return $this->redirect("/show/result/$examId");
     }
 
-    $checkboxes = [];
     return $this->render('passExam/index.html.twig', [
       'controller_name' => 'PassExamController',
-      'exam' => $exam,
-      'checkboxes' => $checkboxes
+      'exam' => $exam
     ]);
   }
 
